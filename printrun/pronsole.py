@@ -254,6 +254,7 @@ class pronsole(cmd.Cmd):
                         try:
                             line = input(self.prompt)
                         except EOFError:
+                            line = ""
                             self.log("")
                             self.do_exit("")
                         except KeyboardInterrupt:
@@ -412,23 +413,7 @@ class pronsole(cmd.Cmd):
             cmd.Cmd.default(self, l)
 
     def do_exit(self, l):
-        if self.status.extruder_temp_target != 0:
-            self.log("Setting extruder temp to 0")
-        self.p.send_now("M104 S0.0")
-        if self.status.bed_enabled:
-            if self.status.bed_temp_target != 0:
-                self.log("Setting bed temp to 0")
-            self.p.send_now("M140 S0.0")
-        self.log("Disconnecting from printer...")
-        if self.p.printing and l != "force":
-            self.log(_("Are you sure you want to exit while printing?\n\
-(this will terminate the print)."))
-            if not self.confirm():
-                return
-        self.log(_("Exiting program. Goodbye!"))
-        self.p.disconnect()
-        self.kill()
-        sys.exit()
+        self.log(_("To exit, use ctrl+A ctrl+D."))
 
     def help_exit(self):
         self.log(_("Disconnects from the printer and exits the program."))
