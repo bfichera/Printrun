@@ -386,7 +386,7 @@ class pronsole(cmd.Cmd):
         self.log("! os.listdir('.')")
 
     def do_shell(self, l):
-        exec(l)
+        print('Shell has been disabled.')
 
     def emptyline(self):
         """Called when an empty line is entered - do not remove"""
